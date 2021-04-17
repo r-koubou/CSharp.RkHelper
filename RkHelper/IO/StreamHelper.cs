@@ -49,24 +49,23 @@ namespace RkHelper.IO
         #region Manifest Resource
 
         /// <summary>
-        /// Alias of Assembly.GetManifestResourceStream(Type, String)
+        /// Alias of Assembly.GetManifestResourceStream(string)
+        /// Try to get stream with `TClass's assembly root namespace`.`resourceName`
         /// </summary>
-        /// <typeparam name="TClass">Using for TClass's namespace</typeparam>
+        /// <typeparam name="TClass">Using for TClass's assembly root namespace</typeparam>
         /// <returns></returns>
         public static Stream? GetAssemblyResourceStream<TClass>( string resourceName )
             where TClass : class
         {
             var type = typeof( TClass );
             var asm = Assembly.GetAssembly( type );
-            return asm?.GetManifestResourceStream( type, resourceName );
+            return asm?.GetManifestResourceStream( asm.GetName().Name + "." + resourceName );
         }
 
         public static byte[] GetAssemblyResourceBytes<TClass>( string resourceName )
             where TClass : class
         {
-            var type = typeof( TClass );
-            var asm = Assembly.GetAssembly( type );
-            using var stream = asm?.GetManifestResourceStream( type, resourceName );
+            using var stream = GetAssemblyResourceStream<TClass>( resourceName );
 
             if( stream == null )
             {
