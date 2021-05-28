@@ -4,8 +4,6 @@
         <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
         <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
-        <AssemblyVersion>0.0.1</AssemblyVersion>
-        <PackageVersion>0.0.1</PackageVersion>
         <Authors>R-Koubou</Authors>
         <Copyright>R-Koubou</Copyright>
         <PackageProjectUrl>https://github.com/r-koubou/CSharp.RkHelper</PackageProjectUrl>
