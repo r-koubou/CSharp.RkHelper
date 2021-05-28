@@ -1,19 +1,29 @@
 name: nuget_deploy
 on:
   push:
-    branches:
-      - release/*
+    tags:
+      - ver-*.*.*
+      - ver-[0-9]+
 
 jobs:
   nuget_deploy:
     runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      NUGET_XMLDOC_MODE: skip
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.100'
-    - run: dotnet build --configuration Release
-    - run: dotnet nuget push $MODULE_NAME/bin/Release/$MODULE_NAME.*.nupkg -k $NUGET_API_TOKEN -s https://api.nuget.org/v3/index.json
+    - run: echo "VER_TAG=${GITHUB_REF#refs/tags/ver-}" >> $GITHUB_ENV
+    - run: dotnet build --configuration Release -p:Version=${{ env.VER_TAG }} RkHelper
+    - run: dotnet pack --configuration Release --no-build -p:Version=${{ env.VER_TAG }} -o ./publish RkHelper
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ValueObjectGenerator-${{ env.VER_TAG }}
+        path: ./publish/
+    - run: dotnet nuget push publish/*.nupkg -k $NUGET_API_TOKEN -s https://api.nuget.org/v3/index.json
       env:
-        MODULE_NAME: RkHelper
         NUGET_API_TOKEN: ${{ secrets.NUGET_API_TOKEN }}
