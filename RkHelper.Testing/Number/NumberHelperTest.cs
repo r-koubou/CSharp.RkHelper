@@ -48,5 +48,17 @@ namespace RkHelper.Testing.Number
             });
         }
 
+        [TestCase( "12",         12,         10 )]
+        [TestCase( "34",         0x34,       16 )]
+        [TestCase( "0xAB",       0xab,       16 )]
+        [TestCase( "00001111",   0b00001111, 2 )]
+        [TestCase( "0b00001111", 0b00001111, 2 )]
+        public void IntTryParseTest( string hexString, int hex, int d )
+        {
+            var r = NumberHelper.TryParse( hexString, out var result, d );
+            Assert.IsTrue( r, "TryParse" );
+            Assert.AreEqual( hex, result, "Value" );
+        }
+
     }
 }
