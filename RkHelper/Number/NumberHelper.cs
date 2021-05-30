@@ -72,36 +72,29 @@ namespace RkHelper.Number
             if( numberText.Length >= 3 && numberText.ToLower().StartsWith( "0x" ) )
             {
                 var hexText = numberText[ 2.. ];
-
                 return int.TryParse( hexText, NumberStyles.AllowHexSpecifier, null, out result );
             }
 
-            if( int.TryParse( numberText, NumberStyles.HexNumber, null, out result ) )
-            {
-                return true;
-            }
-
+            result = 0;
             return false;
         }
 
         private static bool TryParseBit( string numberText, out int result )
         {
-            var bitText = numberText;
             result = 0;
 
             if( numberText.Length >= 3 && numberText.ToLower().StartsWith( "0b" ) )
             {
-                bitText = numberText[ 2.. ];
-            }
-
-            try
-            {
-                result = Convert.ToInt32( bitText, 2 );
-                return true;
-            }
-            catch
-            {
-                // ignored
+                var bitText = numberText[ 2.. ];
+                try
+                {
+                    result = Convert.ToInt32( bitText, 2 );
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
 
             return false;
