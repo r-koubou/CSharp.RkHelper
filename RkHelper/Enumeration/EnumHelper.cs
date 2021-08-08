@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace RkHelper.Enumeration
 {
@@ -58,6 +60,12 @@ namespace RkHelper.Enumeration
         {
             return (T)Enum.ToObject( typeof( T ), v );
         }
+
+        public static IReadOnlyList<T> GetValues<T>() where T : struct
+        {
+            return Enum.GetValues( typeof( T ) ).Cast<T>().ToList();
+        }
+
         #endregion
     }
 }

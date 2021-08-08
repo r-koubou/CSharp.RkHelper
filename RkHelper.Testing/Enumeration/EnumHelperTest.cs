@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using NUnit.Framework;
 
 using RkHelper.Enumeration;
@@ -47,6 +49,12 @@ namespace RkHelper.Testing.Enumeration
 
             Assert.IsFalse( EnumHelper.TryParse<TestEnum>( enumName, out var value ) );
             Assert.AreNotEqual( value.ToString(), enumName );
+        }
+
+        [Test]
+        public void ToListTest()
+        {
+            IReadOnlyList<TestEnum> list = EnumHelper.GetValues<TestEnum>();
         }
     }
 }
