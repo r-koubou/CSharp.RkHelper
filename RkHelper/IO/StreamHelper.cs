@@ -8,6 +8,23 @@ namespace RkHelper.IO
         private const int WorkSize = 8192;
         private static readonly byte[] WorkBuffer = new byte[ WorkSize ];
 
+        public static T? DisposeWithFlush<T>( T stream, bool returnNull = true ) where T : Stream
+        {
+            try { stream.Flush(); } catch { /* ignored */}
+            try { stream.Close(); } catch { /* ignored */}
+            try { stream.Dispose(); } catch { /* ignored */}
+
+            return returnNull ? null : stream;
+        }
+
+        public static T? DisposeWithClose<T>( T stream, bool returnNull = true ) where T : Stream
+        {
+            try { stream.Close(); } catch { /* ignored */}
+            try { stream.Dispose(); } catch { /* ignored */}
+
+            return returnNull ? null : stream;
+        }
+
         #region Read, Write
 
         public static void ReadAllAndWrite( Stream source, Stream dest )
