@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace RkHelper.IO
 {
@@ -28,28 +30,34 @@ namespace RkHelper.IO
         #region Read, Write
 
         public static void ReadAllAndWrite( Stream source, Stream dest )
+            => ReadAllAndWriteAsync( source, dest ).GetAwaiter().GetResult();
+
+        public async static Task ReadAllAndWriteAsync( Stream source, Stream dest )
         {
             while( true )
             {
-                var readByte = source.Read( WorkBuffer, 0, WorkBuffer.Length );
+                var readByte = await source.ReadAsync( WorkBuffer, 0, WorkBuffer.Length );
 
                 if( readByte == 0 )
                 {
                     break;
                 }
 
-                dest.Write( WorkBuffer, 0, readByte );
+                await dest.WriteAsync( WorkBuffer, 0, readByte );
             }
         }
 
         public static void ReadBytes( Stream stream, byte[] buffer, int offset, int length )
+            => ReadBytesAsync( stream, buffer, offset, length ).GetAwaiter().GetResult();
+
+        public async static Task ReadBytesAsync( Stream stream, byte[] buffer, int offset, int length )
         {
             var rest = length;
             var ofs = offset;
 
             while( rest > 0 )
             {
-                var readByte = stream.Read( buffer, ofs, length );
+                var readByte = await stream.ReadAsync( buffer, ofs, length );
 
                 if( readByte == 0 )
                 {
@@ -79,18 +87,21 @@ namespace RkHelper.IO
             return asm?.GetManifestResourceStream( asm.GetName().Name + "." + resourceName );
         }
 
-        public static byte[] GetAssemblyResourceBytes<TClass>( string resourceName )
+        public static byte[] GetAssemblyResourceBytes<TClass>( string resourceName ) where TClass : class
+            => GetAssemblyResourceBytesAsync<TClass>( resourceName ).GetAwaiter().GetResult();
+
+        public static async Task<byte[]> GetAssemblyResourceBytesAsync<TClass>( string resourceName )
             where TClass : class
         {
-            using var stream = GetAssemblyResourceStream<TClass>( resourceName );
+            await using var stream = GetAssemblyResourceStream<TClass>( resourceName );
 
             if( stream == null )
             {
-                return new byte[ 0 ];
+                return Array.Empty<byte>();
             }
 
             using var memoryStream = new MemoryStream();
-            ReadAllAndWrite( stream, memoryStream );
+            await ReadAllAndWriteAsync( stream, memoryStream );
 
             return memoryStream.ToArray();
         }
