@@ -1,8 +1,7 @@
 using System;
 
-namespace RkHelper.Text
+namespace RkHelper.Primitives
 {
-    [Obsolete( "Use RkHelper.Primitives.StringHelper instead" )]
     public static class StringHelper
     {
         private static bool IsEmptyImpl( string text )
