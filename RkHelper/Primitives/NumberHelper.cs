@@ -3,9 +3,8 @@ using System.Globalization;
 
 using RkHelper.Text;
 
-namespace RkHelper.Number
+namespace RkHelper.Primitives
 {
-    [Obsolete( "Use RkHelper.Primitives.NumberHelper instead" )]
     public static class NumberHelper
     {
         #region Validation

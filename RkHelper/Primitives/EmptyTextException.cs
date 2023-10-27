@@ -1,8 +1,7 @@
 using System;
 
-namespace RkHelper.Text
+namespace RkHelper.Primitives
 {
-    [Obsolete( "Use RkHelper.Primitives.EmptyTextException instead" )]
     public class EmptyTextException : Exception
     {
         public EmptyTextException()
