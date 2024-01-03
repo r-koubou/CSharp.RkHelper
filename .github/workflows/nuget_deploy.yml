@@ -39,7 +39,7 @@ jobs:
       run: dotnet pack --configuration Release --no-build -p:Version=${{ env.VER_TAG }} -o ./publish ${{ env.PREFIX }}
 
     - name: Upload artifact file
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PREFIX }}-${{ env.VER_TAG }}
         path: ./publish/
