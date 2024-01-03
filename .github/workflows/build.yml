@@ -62,7 +62,7 @@ jobs:
       run: |
         echo "|Name|Value|" >> $GITHUB_STEP_SUMMARY
         echo "|---|---|" >> $GITHUB_STEP_SUMMARY
-        echo "|Branch|`${{ github.ref_name }}`|" >> $GITHUB_STEP_SUMMARY
-        echo "|Commit-SHA|`${{ github.sha }}`|" >> $GITHUB_STEP_SUMMARY
-        echo "|Version|`${{ inputs.custom-version }}`|" >> $GITHUB_STEP_SUMMARY
-        echo "|Build Configuration|`${{ inputs.build-configuration }}`|" >> $GITHUB_STEP_SUMMARY
+        echo "|Branch|${{ github.ref_name }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|Commit-SHA|${{ github.sha }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|Version|${{ inputs.custom-version }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|Build Configuration|${{ inputs.build-configuration }}|" >> $GITHUB_STEP_SUMMARY
