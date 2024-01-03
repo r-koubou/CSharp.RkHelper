@@ -66,3 +66,4 @@ jobs:
         echo "|Commit-SHA|${{ github.sha }}|" >> $GITHUB_STEP_SUMMARY
         echo "|Version|${{ inputs.custom-version }}|" >> $GITHUB_STEP_SUMMARY
         echo "|Build Configuration|${{ inputs.build-configuration }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|.Net SDK Version|${{ env.DOTNET_SDK_VERSION }}|" >> $GITHUB_STEP_SUMMARY
