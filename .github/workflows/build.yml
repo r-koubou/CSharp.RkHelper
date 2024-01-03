@@ -57,3 +57,12 @@ jobs:
       with:
         name: ${{ env.PREFIX }}-${{ inputs.build-configuration }}
         path: ./publish/
+
+    - name: Github Actions Summary
+      run: |
+        echo "|--|--|" >> $GITHUB_SUMMARY
+        echo "|Name|Value|" >> $GITHUB_SUMMARY
+        echo "|Branch|`${{ github.ref_name }}`|" >> $GITHUB_SUMMARY
+        echo "|Commit-SHA|`${{ github.sha }}`|" >> $GITHUB_SUMMARY
+        echo "|Build Configuration|`${{ inputs.build-configuration }}`|" >> $GITHUB_SUMMARY
+        echo "|Configuration|`${{ inputs.build-configuration }}`|" >> $GITHUB_SUMMARY
