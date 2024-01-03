@@ -48,3 +48,12 @@ jobs:
       run: dotnet nuget push publish/*.nupkg -k $NUGET_API_TOKEN -s https://api.nuget.org/v3/index.json
       env:
         NUGET_API_TOKEN: ${{ secrets.NUGET_API_TOKEN }}
+
+    - name: Github Actions Summary
+      run: |
+        echo "|Name|Value|" >> $GITHUB_STEP_SUMMARY
+        echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+        echo "|Branch|${{ github.ref_name }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|Commit-SHA|${{ github.sha }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|Version|${{ env.VER_TAG }}|" >> $GITHUB_STEP_SUMMARY
+        echo "|.Net SDK Version|${{ env.DOTNET_SDK_VERSION }}|" >> $GITHUB_STEP_SUMMARY
