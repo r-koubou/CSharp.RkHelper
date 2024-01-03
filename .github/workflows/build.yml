@@ -10,6 +10,10 @@ on:
       build-configuration:
         required: true
         type: string
+      custom-version:
+        required: false
+        type: string
+        default: "0.0.0"
 
   workflow_dispatch:
     inputs:
@@ -20,6 +24,11 @@ on:
         options:
           - Debug
           - Release
+      custom-version:
+        description: "Package Version (format: x.y.z)"
+        required: false
+        type: string
+        default: "0.0.0"
 
 jobs:
   cli-build:
@@ -38,10 +47,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
     - name: Build
-      run: dotnet build --configuration ${{ inputs.build-configuration }} ${{ env.PREFIX }}
+      run: dotnet build --configuration ${{ inputs.build-configuration }} -p:Version=${{ inputs.custom-version }} ${{ env.PREFIX }}
 
     - name: Packaging
-      run: dotnet pack --configuration ${{ inputs.build-configuration }} --no-build -o ./publish ${{ env.PREFIX }}
+      run: dotnet pack --configuration ${{ inputs.build-configuration }} --no-build -p:Version=${{ inputs.custom-version }} -o ./publish ${{ env.PREFIX }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
